@@ -20,7 +20,7 @@ module.exports = (_, argv) => ({
     port: 3005,
     historyApiFallback: true,
   },
-
+  devtool: 'eval-cheap-source-map',
   module: {
     rules: [
       {
@@ -60,27 +60,24 @@ module.exports = (_, argv) => ({
     new webpack.DefinePlugin({
       'process.env.CACHE_API_URL': JSON.stringify(process.env.CACHE_API_URL),
     }),
-    new ModuleFederationPlugin({
-      name: "Components",
-      filename: "remoteEntry.js",
-      exposes: {
-        "./Components": "./src/Components",
-      },
-      remotes: {
-        seabrief: 'seabrief@https://www.seabrief.com/_next/static/chunks/remoteEntry.js'
-      },
-      shared: {
-        ...deps,
-        react: {
-          singleton: true,
-          requiredVersion: deps.react,
-        },
-        "react-dom": {
-          singleton: true,
-          requiredVersion: deps["react-dom"],
-        },
-      },
-    }),
+    // new ModuleFederationPlugin({
+    //   name: "Components",
+    //   filename: "remoteEntry.js",
+    //   remotes: {
+    //     seabrief: 'seabrief@https://www.seabrief.com/_next/static/chunks/remoteEntry.js'
+    //   },
+    //   shared: {
+    //     ...deps,
+    //     react: {
+    //       singleton: true,
+    //       requiredVersion: deps.react,
+    //     },
+    //     "react-dom": {
+    //       singleton: true,
+    //       requiredVersion: deps["react-dom"],
+    //     },
+    //   },
+    // }),
     new HtmlWebPackPlugin({
       template: "./src/index.html",
     }),

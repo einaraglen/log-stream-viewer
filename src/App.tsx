@@ -1,10 +1,14 @@
 import React from 'react'
 import { createRoot } from 'react-dom/client'
+import Graph from './components/graph/graph'
+import SocketContextProvider from './context/socket_context'
 import './index.css'
 
 const App = () => {
   return (
-    <div>test</div>
+    <SocketContextProvider>
+      <Graph />
+    </SocketContextProvider>
   )
 }
 
