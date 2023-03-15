@@ -38,7 +38,8 @@ const GraphContextProvider = ({ children }: Props) => {
     }, [])
 
     useEffect(() => {
-        socket.emit("request", { ...range, signals: [53] })
+        const { from, to } = range;
+        socket.emit("request", { signals: [53], ranges: [[from, to],[from, to]] })
     }, [range])
 
     return (<>{children}</>)

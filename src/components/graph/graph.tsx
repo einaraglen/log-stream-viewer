@@ -15,7 +15,7 @@ const Graph = () => {
   const { ref } = useGraphContext()
   return (
     <GraphContextProvider>
-      <div className="h-96 relative">
+      <div className="h-[25rem] relative">
         <Chart type="line" ref={ref} options={options} data={data} />
       </div>
     </GraphContextProvider>

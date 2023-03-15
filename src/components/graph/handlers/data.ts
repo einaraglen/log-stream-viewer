@@ -31,8 +31,12 @@ export const useDataHandler = () => {
   const create = (id: number, data: any[]): Partial<ChartDataset | any> => {
     return {
       ...base,
-      label: "Test",
-      yAxisID: "y",
+      label: 'Test',
+      yAxisID: 'y',
+      parsing: {
+        xAxisKey: 'x_axis',
+        yAxisKey: 'y_axis',
+      },
       data,
       backgroundColor: '#FFF',
       borderColor: '#FFF',
@@ -54,8 +58,6 @@ export const useDataHandler = () => {
 
     chart.stop()
     chart.update('none')
-
-    console.log(chart.data.datasets)
   }
 
   return { add }
