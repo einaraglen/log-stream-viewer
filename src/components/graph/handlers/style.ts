@@ -1,8 +1,18 @@
 import { useGraphContext } from '../../../context/graph_context'
 import { GRID_COLOR } from '../options.ts/scales'
+import randomColor from "randomcolor"
+import { useSignalContext } from '../../../context/signal_context'
+
+export const formatYaxis = (value: number) => {
+  // ES2020 added support for NumberFormatter, use this instead of importing npm package millify
+  const formatter = Intl.NumberFormat('en', { notation: 'compact' })
+  return formatter.format(value)
+}
 
 export const useStyleHandler = () => {
   const { ref } = useGraphContext()
+  const { selected } = useSignalContext();
+
 
   const colors = () => {
     const chart = ref.current
@@ -21,7 +31,7 @@ export const useStyleHandler = () => {
         },
         ticks: {
           ...chart.options.scales.x.ticks,
-          color: '#D0D3D4',
+          color:"#D0D3D4"
         },
       }
     }
@@ -30,24 +40,22 @@ export const useStyleHandler = () => {
     chart.update('none')
   }
 
-  const formatYaxis = (value: number) => {
-    // ES2020 added support for NumberFormatter, use this instead of importing npm package millify
-    const formatter = Intl.NumberFormat('en', { notation: 'compact' })
-    return formatter.format(value)
-  }
-
   const scales = () => {
     const chart = ref.current
-    if (chart == null) {
+
+    if (chart == null || selected.length == 0) {
       return
     }
-    Object.keys(chart.options.scales).forEach((scaleid: string, idx: number) => {
-      if (scaleid === 'x') return
-      const scale = chart.options.scales[scaleid]
-      chart.options.scales[scaleid] = {
+
+    delete chart.options.scales.y
+
+    selected.forEach(({ name, color }, i: number) => {
+      const scale = chart.options.scales[name] || { }
+
+      chart.options.scales[name] = {
         ...scale,
         grid: {
-          display: idx === 1,
+          display: i == 0,
           color: GRID_COLOR,
           borderColor: GRID_COLOR,
         },
@@ -56,7 +64,7 @@ export const useStyleHandler = () => {
         ticks: {
           callback: formatYaxis,
           autoSkip: true,
-          color: '#FFF',
+          color
         },
       }
     })
@@ -65,5 +73,5 @@ export const useStyleHandler = () => {
     chart.update('none')
   }
 
-  return { colors }
+  return { colors, scales }
 }

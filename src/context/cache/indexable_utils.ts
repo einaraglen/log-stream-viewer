@@ -20,9 +20,9 @@ class IndexableUtils {
     return `${name}_${id}`
   }
 
-  public open(table: string, type: Connection, version: number = performance.now()): Promise<IDBObjectStore> {
+  public open(table: string, type: Connection, version?: number): Promise<IDBObjectStore> {
     return new Promise((resolve: any, reject: any) => {
-      const connection = indexedDB.open(this.database, version)
+      const connection = indexedDB.open(this.database, version || Date.now())
 
       connection.onerror = (event) => reject(event)
       connection.onupgradeneeded = (event: any) => this.tables(table, event.target.result)
@@ -49,12 +49,12 @@ class IndexableUtils {
     if (!db.objectStoreNames.contains(table.toString())) {
       const request = db.createObjectStore(table.toString())
 
-      request.transaction.oncomplete = () => console.log(`Created Store for signal "${table}"`)
+      request.transaction.oncomplete = () => console.info(`Created Store for signal "${table}"`)
     }
 
     if (!db.objectStoreNames.contains(this.METADATA_TABLE)) {
       const request = db.createObjectStore(this.METADATA_TABLE)
-      request.transaction.oncomplete = () => console.log(`Created Store for signal Aggregator`)
+      request.transaction.oncomplete = () => console.info(`Created Store for signal Aggregator`)
     }
   }
 
@@ -144,7 +144,7 @@ class IndexableUtils {
   }
 
   public async aggregate(queue: { id: string; range: Interval }[]) {
-    const start = performance.now()
+    const start = Date.now()
 
     queue.forEach(async (item, index) => {
       const version = start + index

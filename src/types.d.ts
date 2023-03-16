@@ -10,8 +10,8 @@ type Discovery = {
 }
 
 type Value = {
-  x_axis: number
-  y_axis: number
+  x: number
+  y: number
 }
 
 type Signal = {
@@ -28,4 +28,5 @@ type Metadata = {
   name: string
   path?: string
   size: number
+  color: string
 }

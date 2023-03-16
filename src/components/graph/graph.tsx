@@ -12,10 +12,13 @@ ChartJS.register(zoom, crosshair, LinearScale, TimeScale, LineController, PointE
 const data = { datasets: [] };
 
 const Graph = () => {
-  const { ref } = useGraphContext()
+  const { ref, status } = useGraphContext()
   return (
     <GraphContextProvider>
-      <div className="h-[25rem] relative">
+      <div className="h-[35rem] relative">
+        <div className='absolute top-2 right-2'>
+            <span className='font-semibold'>{status || "waiting"}</span>
+        </div>
         <Chart type="line" ref={ref} options={options} data={data} />
       </div>
     </GraphContextProvider>

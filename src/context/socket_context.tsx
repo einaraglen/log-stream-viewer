@@ -1,11 +1,16 @@
-import React, { ReactNode } from 'react'
-import { useEffect } from 'react'
-import { io } from 'socket.io-client'
-import { create } from 'zustand'
-import { useDataHandler } from '../components/graph/handlers/data'
-import { useSignalContext } from './signal_context'
+import React, { ReactNode } from "react";
+import { useEffect } from "react";
+import { io } from "socket.io-client";
+import { create } from "zustand";
+import { useDataHandler } from "../components/graph/handlers/data";
+import { useInsertHandler } from "../components/graph/handlers/insert";
+import { useGraphContext } from "./graph_context";
+import { useSignalContext } from "./signal_context";
 
-const URL = process.env.NODE_ENV === 'production' ? undefined : 'http://localhost:8080/stream'
+const URL =
+  process.env.NODE_ENV === "production"
+    ? undefined
+    : "http://localhost:8080/stream";
 
 export const useSocketContext = create((set: any) => ({
   socket: io(URL!),
@@ -13,43 +18,50 @@ export const useSocketContext = create((set: any) => ({
   onConnect: () => set({ isConnected: true }),
   onDisconnect: () => set({ isConnected: false }),
   set,
-}))
+}));
 
 interface Props {
-  children: ReactNode
+  children: ReactNode;
 }
 
 const SocketContextProvider = ({ children }: Props) => {
-  const { socket, onConnect, onDisconnect } = useSocketContext()
-  const { set } = useSignalContext()
-  const { add } = useDataHandler()
+  const { socket, onConnect, onDisconnect } = useSocketContext();
+  const { setSignals } = useSignalContext();
+  const { setStatus } = useGraphContext();
+  const { insert } = useInsertHandler()
 
   const onResponse = (payload: any) => {
-    add(payload[0].values.map((value) => ({ ...value, x_axis: parseInt(value.x_axis)})))
-  }
+    insert(payload)
+  };
 
   const onSignals = (payload: any) => {
-    console.log(payload)
-    set({ signals: payload })
-  }
+    setSignals(payload);
+  };
+
+  const onStatus = (payload: any) => {
+    setStatus(payload)
+  };
+
 
   useEffect(() => {
-    socket.on('connect', onConnect)
-    socket.on('disconnect', () => onDisconnect)
+    socket.on("connect", onConnect);
+    socket.on("disconnect", () => onDisconnect);
 
-    socket.on('response', onResponse)
-    socket.on('signals', onSignals)
+    socket.on("response", onResponse);
+    socket.on("signals", onSignals);
+    socket.on("status", onStatus);
 
     return () => {
-      socket.off('connect', onConnect)
-      socket.off('disconnect', onDisconnect)
+      socket.off("connect", onConnect);
+      socket.off("disconnect", onDisconnect);
 
-      socket.off('response', onResponse)
-      socket.off('signals', onSignals)
-    }
-  }, [])
+      socket.off("response", onResponse);
+      socket.off("signals", onSignals);
+      socket.off("status", onStatus);
+    };
+  }, []);
 
-  return <>{children}</>
-}
+  return <>{children}</>;
+};
 
-export default SocketContextProvider
+export default SocketContextProvider;

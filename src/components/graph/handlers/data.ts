@@ -1,6 +1,5 @@
 import { ChartDataset } from 'chart.js'
-import { ChartData } from 'chart.js'
-import { DataPoint, Indexable, LTTB } from 'downsample'
+import { LTTB } from 'downsample'
 import { useGraphContext } from '../../../context/graph_context'
 
 const STEPPED = 'start'
@@ -14,7 +13,7 @@ export const base: Partial<ChartDataset | any> = {
   indexAxis: 'x',
   radius: RADIUS,
   fill: false,
-  stepped: false,
+  stepped: STEPPED,
   tension: TENSION,
   parsing: false,
   spanGaps: true,
@@ -28,37 +27,31 @@ export type CustomParsing = {
 export const useDataHandler = () => {
   const { ref } = useGraphContext()
 
-  const create = (id: number, data: any[]): Partial<ChartDataset | any> => {
+  const create = (name: string, color: string, data: any[]): Partial<ChartDataset | any> => {
     return {
       ...base,
-      label: 'Test',
-      yAxisID: 'y',
-      parsing: {
-        xAxisKey: 'x_axis',
-        yAxisKey: 'y_axis',
-      },
+      label: name,
+      yAxisID: name,
       data,
-      backgroundColor: '#FFF',
-      borderColor: '#FFF',
+      backgroundColor: color,
+      borderColor: color,
     }
   }
 
-  const add = (data: any) => {
+  const draw = (data: (Signal & { color: string })[]) => {
     const chart = ref.current
 
     if (chart == null) {
       return
     }
 
-    // const datasets = chart.data.datasets
+    const datasets = data.map((signal) => create(signal.name, signal.color, LTTB(signal.values, chart.chartArea.width) as any))
 
-    const dataset = create(1, LTTB(data, 500) as any)
-
-    chart.data.datasets = [dataset]
+    chart.data.datasets = [...datasets]
 
     chart.stop()
     chart.update('none')
   }
 
-  return { add }
+  return { draw }
 }

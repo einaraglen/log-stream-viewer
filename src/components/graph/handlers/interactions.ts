@@ -29,7 +29,7 @@ export const useInteractionHandler = () => {
   const onInteraction = debounce(({ chart }: CallbackParam): void => {
     if (isOutOfBounds(chart)) {
       const { min, max } = chart.scales.x
-      set({ range: { from: min, to: max } })
+      set({ range: { from: parseInt(min as any), to: parseInt(max as any) } })
     }
   }, 500)
 
