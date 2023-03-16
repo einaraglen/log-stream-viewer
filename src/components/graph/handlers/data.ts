@@ -7,18 +7,6 @@ const TENSION = 0.2
 const RADIUS = 0
 const LINE = 2
 
-export const base: Partial<ChartDataset | any> = {
-  type: 'line' as const,
-  borderWidth: LINE,
-  indexAxis: 'x',
-  radius: RADIUS,
-  fill: false,
-  stepped: STEPPED,
-  tension: TENSION,
-  parsing: false,
-  spanGaps: true,
-}
-
 export type CustomParsing = {
   x_axis: number
   y_axis: number
@@ -29,12 +17,20 @@ export const useDataHandler = () => {
 
   const create = (name: string, color: string, data: any[]): Partial<ChartDataset | any> => {
     return {
-      ...base,
       label: name,
       yAxisID: name,
       data,
       backgroundColor: color,
       borderColor: color,
+      type: 'line' as const,
+      borderWidth: LINE,
+      indexAxis: 'x',
+      radius: RADIUS,
+      fill: false,
+      stepped: (data[0].y % 1 == 0) ? STEPPED : false,
+      tension: TENSION,
+      parsing: false,
+      spanGaps: true,
     }
   }
 

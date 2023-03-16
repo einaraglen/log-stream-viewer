@@ -2,8 +2,7 @@ import React, { ReactNode } from "react";
 import { useEffect } from "react";
 import { io } from "socket.io-client";
 import { create } from "zustand";
-import { useDataHandler } from "../components/graph/handlers/data";
-import { useInsertHandler } from "../components/graph/handlers/insert";
+import IndexableCache from "./cache/indexable_cache";
 import { useGraphContext } from "./graph_context";
 import { useSignalContext } from "./signal_context";
 
@@ -28,10 +27,10 @@ const SocketContextProvider = ({ children }: Props) => {
   const { socket, onConnect, onDisconnect } = useSocketContext();
   const { setSignals } = useSignalContext();
   const { setStatus } = useGraphContext();
-  const { insert } = useInsertHandler()
 
   const onResponse = (payload: any) => {
-    insert(payload)
+    const client = new IndexableCache("test_db")
+        return client.insert(payload.data, payload.range)
   };
 
   const onSignals = (payload: any) => {

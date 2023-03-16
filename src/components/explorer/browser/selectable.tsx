@@ -2,6 +2,7 @@ import React, { ReactNode, useMemo } from "react";
 import { useDraggable } from "@dnd-kit/core";
 import { classNames } from "../../../utils/tools";
 import { useSignalContext } from "../../../context/signal_context";
+import { useGraphContext } from "../../../context/graph_context";
 
 interface Props {
   signal: any;
@@ -36,7 +37,7 @@ export const Draggable = ({ signal, children }: Props & { children: ReactNode })
         ref={setNodeRef}
         {...listeners}
         {...attributes}
-        className={classNames(isActive && "opacity-0", "flex flex-shrink justify-start items-center p-1")}
+        className={classNames(isActive && "opacity-0", "flex flex-shrink justify-start items-center")}
       >
         {children}
       </div>
@@ -53,12 +54,30 @@ const Label = ({ active }: { active: boolean }) => {
 }
 
 const Selectable = ({ signal }: Props) => {
+  // const { range } = useGraphContext()
+
+  // const active = () => {
+  //   if (range == null) {
+  //     return false
+  //   }
+
+  //   const from = range.from > signal.from && range.from < signal.to
+  //   const to = range.to > signal.from && range.to < signal.to
+
+  //   console.log(from, to)
+
+
+  //   return from || to
+  // }
+
   return (
     <>
       <div className="h-5 w-5 flex items-center justify-center text-sm"></div>
       <div className="text-white text-sm space-x-2 items-center flex">
       <span>{signal.name}</span>
-      <Label active={false} />
+      <span className="text-xs text-white/50">{`(${signal.size})`}</span>
+      {/* <Label active={active()} /> */}
+
       </div>
       <div className="h-5 w-5 flex items-center justify-center text-sm"></div>
     </>

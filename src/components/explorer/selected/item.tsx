@@ -17,7 +17,7 @@ const Item = ({ signal }: Props) => {
   return (
     <div className="flex items-center justify-between bg-white/10 rounded-md px-2 py-1">
       <div className="flex items-center space-x-2">
-        <div style={{ background: signal.color }} className="h-7 w-7 rounded-full shadow-lg" />
+        <div style={{ background: signal.color }} className="h-7 w-7 rounded-lg shadow-lg" />
 
       <div className="flex flex-col">
         <span className="text-sm font-semibold">{signal.name}</span>

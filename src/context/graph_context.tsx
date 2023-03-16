@@ -70,7 +70,10 @@ const GraphContextProvider = ({ children }: Props) => {
 
         const { from, to } = range;
         const signals = selected.map((metadata) => metadata.id)
-        socket.emit("request", { signals, ranges: [[from, to], [from, to]] })
+        const client = new IndexableCache("test_db")
+        client.discover(selected, [from, to]).then((res) => console.log(res)).catch((err) => console.warn(err))
+       
+        socket.emit("request", { signals, ranges: [[from, to]] })
     }, [range])
 
     return (<>{children}</>)

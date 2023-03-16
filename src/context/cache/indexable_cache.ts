@@ -30,14 +30,12 @@ class IndexableCache {
   }
 
   public async insert(signals: (Signal)[], range: Interval): Promise<void> {
-    const start = Date.now()
     const queue: { id: string; range: Interval }[] = []
 
     const promises = signals.map(async (signal, i) => {
-      const version = start + i
       const key = this.utils.key(signal)
 
-      const store = await this.utils.open(key, Connection.ReadWrite, version)
+      const store = await this.utils.open(key, Connection.ReadWrite)
 
       queue.push({ id: key, range })
 

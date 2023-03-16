@@ -11,6 +11,7 @@ export enum Query {
 class IndexableUtils {
   private database: string
   private METADATA_TABLE: string = 'metadata'
+  private version?: number
 
   public constructor(database: string) {
     this.database = database
@@ -20,14 +21,15 @@ class IndexableUtils {
     return `${name}_${id}`
   }
 
-  public open(table: string, type: Connection, version?: number): Promise<IDBObjectStore> {
+  private connect(table: string, type: Connection, version?: number): Promise<IDBObjectStore> {
     return new Promise((resolve: any, reject: any) => {
-      const connection = indexedDB.open(this.database, version || Date.now())
+      const connection = indexedDB.open(this.database, version || this.version)
 
       connection.onerror = (event) => reject(event)
       connection.onupgradeneeded = (event: any) => this.tables(table, event.target.result)
       connection.onsuccess = (event: any) => {
         const db: IDBDatabase = event.target.result
+        this.version = db.version
 
         db.onversionchange = (event: any) => {
           db.close()
@@ -43,6 +45,14 @@ class IndexableUtils {
         resolve(store)
       }
     })
+  }
+
+  public async open(table: string, type: Connection): Promise<IDBObjectStore> {
+    try {
+      return await this.connect(table, type)
+    } catch (e) {
+      return await this.connect(table, type, this.version! + 1)
+    }
   }
 
   public tables(table: string, db: IDBDatabase): void {
@@ -144,11 +154,9 @@ class IndexableUtils {
   }
 
   public async aggregate(queue: { id: string; range: Interval }[]) {
-    const start = Date.now()
 
     queue.forEach(async (item, index) => {
-      const version = start + index
-      const store = await this.open(this.METADATA_TABLE, Connection.ReadWrite, version)
+      const store = await this.open(this.METADATA_TABLE, Connection.ReadWrite)
 
       const request = store.get(item.id)
 
