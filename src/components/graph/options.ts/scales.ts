@@ -7,7 +7,9 @@ export const scales = {
     offset: true,
     type: "time",
     color: GRID_COLOR,
-    borderColor: GRID_COLOR,
+    border: {
+      display: false
+    },
     time: {
       tooltipFormat: "MMM DD HH:mm ss.SSSS",
       displayFormats: {
@@ -37,7 +39,9 @@ export const scales = {
   y: {
     grid: {
       color: GRID_COLOR,
-      borderColor: GRID_COLOR,
+    },
+    border: {
+      color: GRID_COLOR
     },
     offset: false,
     position: "left",

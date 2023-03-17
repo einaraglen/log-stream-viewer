@@ -7,7 +7,7 @@ class IndexableCache {
     this.utils = new IndexableUtils(database)
   }
 
-  public async discover(signals: { id: number, name: string }[], range: Interval): Promise<Discovery[]> {
+  public async discover(signals: Metadata[], range: Interval): Promise<Discovery[]> {
     const promises = signals.map(async (signal) => {
       const cache = await this.utils.cache(this.utils.key(signal), range)
       const gaps = this.utils.gaps(cache, range)

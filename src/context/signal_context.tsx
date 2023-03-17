@@ -8,21 +8,21 @@ export type SignalContext = {
   onDragEnd: (event: any) => void
   onDragStart: (event: any) => void
   setSignals: (signals: any) => void
+  removeSelected: (signal: Metadata) => void
   set: any
 }
 
 const addSelected = (set: any, event: any) => {
   const signal = event.active.data.current.signal
   const color = randomColor({
-    luminosity: 'light',
+    // luminosity: 'light',
     hue: 'random',
     format: 'rgb'
  })
   set((state: SignalContext) => ({ selected: [ ...state.selected, { ...signal, color } ]}))
 }
 
-const removeSelected = (set: any, event: any) => {
-  const signal = event.active.data.current.signal
+const removeSelected = (set: any, signal: Metadata) => {
   set((state: SignalContext) => ({ selected: state.selected.filter((metadata) => metadata.id != signal.id) }))
 }
 
@@ -33,7 +33,11 @@ const onDragStart = (event: any, set: any) => {
 
 const onDragEnd = (event: any, set: any) => {
   set({ active: null })
-  return event.over ? addSelected(set, event) : removeSelected(set, event)
+  if (event.over == null) {
+    return 
+  }
+
+  addSelected(set, event)
 }
 
 export const useSignalContext = create<SignalContext>((set: any) => ({
@@ -43,5 +47,6 @@ export const useSignalContext = create<SignalContext>((set: any) => ({
   onDragStart: (event: any) => onDragStart(event, set),
   onDragEnd: (event: any) => onDragEnd(event, set),
   setSignals: (signals: any) => set({ signals }),
+  removeSelected: (signal: Metadata) => removeSelected(set, signal),
   set,
 }))

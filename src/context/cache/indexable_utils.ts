@@ -49,8 +49,10 @@ class IndexableUtils {
 
   public async open(table: string, type: Connection): Promise<IDBObjectStore> {
     try {
+      // will resolve if table we are accessing exists
       return await this.connect(table, type)
     } catch (e) {
+      // since table does not exist we bumb version to create new table
       return await this.connect(table, type, this.version! + 1)
     }
   }
@@ -124,7 +126,7 @@ class IndexableUtils {
 
       request.onsuccess = (event: any) => {
         const match = event.target.result
-        if (!match) return reject(null)
+        if (!match) return resolve([])
         const matches = match.filter((current) => this.intersects(range, current))
 
         resolve(matches)
@@ -136,7 +138,7 @@ class IndexableUtils {
     let [from, to] = range
 
     if (cached.length === 0) {
-      return [{ ...range }]
+      return [range]
     }
 
     return cached.reduce<Interval[]>((res, curr, i) => {

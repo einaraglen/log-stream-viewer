@@ -1,7 +1,7 @@
 import { useGraphContext } from '../../../context/graph_context'
 
 export const useNavigationHandler = () => {
-  const { ref } = useGraphContext()
+  const { ref, set } = useGraphContext()
 
   const zoom = (value: number) => {
     if (ref.current) {
@@ -24,6 +24,7 @@ export const useNavigationHandler = () => {
   const navigate = (from: number, to: number) => {
     if (ref.current) {
       ref.current.zoomScale('x', { min: from, max: to }, 'none')
+      set({ range: { from, to }})
     }
   }
 

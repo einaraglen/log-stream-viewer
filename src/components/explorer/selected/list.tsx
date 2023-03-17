@@ -7,7 +7,7 @@ import Item from "./item";
 const SelectedList = () => {
   const { selected } = useSignalContext();
   const { isOver, setNodeRef } = useDroppable({
-    id: "selected_area",
+    id: "active_area",
   });
   
   return (

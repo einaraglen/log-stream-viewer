@@ -1,10 +1,7 @@
 type Interval = [number, number]
 
 type Discovery = {
-  signal: {
-    id: number
-    name: string
-  }
+  signal: Metadata
   cache: Interval[]
   gaps: Interval[]
 }

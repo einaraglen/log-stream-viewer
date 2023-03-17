@@ -1,9 +1,9 @@
 import React from "react";
 import { BiTargetLock } from "react-icons/bi";
-import { HiOutlineClock } from "react-icons/hi2";
+import { HiOutlineClock, HiXCircle } from "react-icons/hi2";
 import dayjs from "dayjs"
-
 import relative from "dayjs/plugin/relativeTime"
+import { useDataHandler } from "../../graph/handlers/data";
 
 dayjs.extend(relative)
 
@@ -12,10 +12,16 @@ interface Props {
 }
 
 const Item = ({ signal }: Props) => {
+  const { remove } = useDataHandler()
+
   const duration = signal.size == 1 ? "--" : dayjs(parseInt(signal.from)).to(dayjs(parseInt(signal.to)), true);
 
+  const onRemove = () => {
+    remove(signal)
+  }
+
   return (
-    <div className="flex items-center justify-between bg-white/10 rounded-md px-2 py-1">
+    <div className="flex items-center justify-between bg-black/30 shadow-lg rounded-md px-2 py-1">
       <div className="flex items-center space-x-2">
         <div style={{ background: signal.color }} className="h-7 w-7 rounded-lg shadow-lg" />
 
@@ -25,7 +31,8 @@ const Item = ({ signal }: Props) => {
       </div>
       </div>
     
-      <div className="flex flex-col">
+      <div className="flex space-x-2 items-center">
+        <div className="flex flex-col">
         <div className="flex items-center justify-end space-x-1">
           <span className="text-xs text-white/50">{signal.size}</span>
           <BiTargetLock className="h-3 w-4" />
@@ -34,6 +41,10 @@ const Item = ({ signal }: Props) => {
           <span className="text-xs text-white/50">{duration}</span>
           <HiOutlineClock className="h-3 w-4" />
         </div>
+        </div>
+        <button onClick={onRemove}>
+        <HiXCircle className="h-5 w-5" />
+        </button>
       </div>
     </div>
   );
