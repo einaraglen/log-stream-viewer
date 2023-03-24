@@ -1,7 +1,7 @@
 import React, { ReactNode } from "react";
 import { useEffect } from "react";
 import { create } from "zustand";
-import { useDrawHandler } from "../components/graph/handlers/draw";
+import { useDataHandler } from "../components/graph/handlers/data";
 import { useInteractionHandler } from "../components/graph/handlers/interactions";
 import { useNavigationHandler } from "../components/graph/handlers/navigation";
 import { useStyleHandler } from "../components/graph/handlers/style";
@@ -32,7 +32,7 @@ const GraphContextProvider = ({ children }: Props) => {
   const { navigate } = useNavigationHandler();
   const { colors, scales } = useStyleHandler();
 
-  const { onStatus, onRange } = useDrawHandler();
+  const { onStatus, onRange } = useDataHandler();
 
   const { range, status } = useGraphContext();
   const { selected } = useSignalContext();

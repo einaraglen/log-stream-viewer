@@ -1,10 +1,10 @@
-import IndexableUtils, { Connection, Query } from './indexable_utils'
+import IndexedUtils, { Connection, Query } from './indexed_utils'
 
-class IndexableCache {
-  private utils: IndexableUtils
+class IndexedCache {
+  private utils: IndexedUtils
 
   public constructor(database: string) {
-    this.utils = new IndexableUtils(database)
+    this.utils = new IndexedUtils(database)
   }
 
   public async discover(signals: Metadata[], range: Interval): Promise<Discovery[]> {
@@ -19,6 +19,13 @@ class IndexableCache {
 
   public async find(signal: { id: number, name: string }, range: Interval): Promise<Value[]> {
     const key = this.utils.key(signal)
+
+    const size = await this.utils.size(key)
+
+    if (size == 1) {
+      return await this.utils.last(key) as any
+    }
+
     const keys = await this.utils.query(key, range, Query.Keys)
     const values = await this.utils.query(key, range, Query.Values)
 
@@ -51,4 +58,4 @@ class IndexableCache {
   }
 }
 
-export default IndexableCache
+export default IndexedCache

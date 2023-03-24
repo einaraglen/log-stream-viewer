@@ -3,7 +3,7 @@ import { BiTargetLock } from "react-icons/bi";
 import { HiOutlineClock, HiXCircle } from "react-icons/hi2";
 import dayjs from "dayjs"
 import relative from "dayjs/plugin/relativeTime"
-import { useDataHandler } from "../../graph/handlers/data";
+import { useDrawHandler } from "../../graph/handlers/draw";
 
 dayjs.extend(relative)
 
@@ -12,7 +12,7 @@ interface Props {
 }
 
 const Item = ({ signal }: Props) => {
-  const { remove } = useDataHandler()
+  const { remove } = useDrawHandler()
 
   const duration = signal.size == 1 ? "--" : dayjs(parseInt(signal.from)).to(dayjs(parseInt(signal.to)), true);
 

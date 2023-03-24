@@ -58,7 +58,7 @@ module.exports = (_, argv) => ({
 
   plugins: [
     new webpack.DefinePlugin({
-      'process.env.CACHE_API_URL': JSON.stringify(process.env.CACHE_API_URL),
+      'process.env.LOG_API_URL': JSON.stringify(process.env.LOG_API_URL),
     }),
     // new ModuleFederationPlugin({
     //   name: "Components",
