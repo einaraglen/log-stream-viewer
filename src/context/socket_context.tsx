@@ -2,6 +2,7 @@ import React, { ReactNode } from "react";
 import { useEffect } from "react";
 import { io } from "socket.io-client";
 import { create } from "zustand";
+import { useNavigationHandler } from "../components/graph/handlers/navigation";
 import IndexedCache from "./cache/indexed_cache";
 import { useGraphContext } from "./graph_context";
 import { useSignalContext } from "./signal_context";
@@ -26,13 +27,15 @@ interface Props {
 
 const SocketContextProvider = ({ children }: Props) => {
   const { socket, onConnect, onDisconnect } = useSocketContext();
+  const { navigate } = useNavigationHandler();
   const { setSignals } = useSignalContext();
   const { setStatus } = useGraphContext();
 
   const onResponse = (payload: any) => {
+    console.log(payload)
     // TODO: use system uuid for db opening
-    const client = new IndexedCache("test_db");
-    client.insert(payload.data, payload.range);
+    // const client = new IndexedCache("test_db");
+    // client.insert(payload.data, payload.range);
   };
 
   const onSignals = (payload: any) => {
@@ -40,8 +43,13 @@ const SocketContextProvider = ({ children }: Props) => {
   };
 
   const onStatus = (payload: any) => {
-    setStatus(payload);
+    // setStatus(payload);
   };
+
+  const onBounds = (payload: any) => {
+    console.log(new Date(payload.from), new Date(payload.from))
+    navigate(payload.to - 1.2e+5, payload.to);
+  }
 
   useEffect(() => {
     socket.on("connect", onConnect);
@@ -49,6 +57,7 @@ const SocketContextProvider = ({ children }: Props) => {
 
     socket.on("response", onResponse);
     socket.on("signals", onSignals);
+    socket.on("bounds", onBounds);
     socket.on("status", onStatus);
 
     return () => {
@@ -57,6 +66,7 @@ const SocketContextProvider = ({ children }: Props) => {
 
       socket.off("response", onResponse);
       socket.off("signals", onSignals);
+      socket.off("bounds", onBounds);
       socket.off("status", onStatus);
     };
   }, []);

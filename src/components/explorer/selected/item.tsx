@@ -14,8 +14,6 @@ interface Props {
 const Item = ({ signal }: Props) => {
   const { remove } = useDrawHandler()
 
-  const duration = signal.size == 1 ? "--" : dayjs(parseInt(signal.from)).to(dayjs(parseInt(signal.to)), true);
-
   const onRemove = () => {
     remove(signal)
   }
@@ -34,11 +32,11 @@ const Item = ({ signal }: Props) => {
       <div className="flex space-x-2 items-center">
         <div className="flex flex-col">
         <div className="flex items-center justify-end space-x-1">
-          <span className="text-xs text-white/50">{signal.size}</span>
+          <span className="text-xs text-white/50">MISSING</span>
           <BiTargetLock className="h-3 w-4" />
         </div>
         <div className="flex items-center justify-end space-x-1">
-          <span className="text-xs text-white/50">{duration}</span>
+          <span className="text-xs text-white/50">MISSING</span>
           <HiOutlineClock className="h-3 w-4" />
         </div>
         </div>

@@ -18,12 +18,8 @@ type Signal = {
 }
 
 type Metadata = {
-  from: string
-  to: string
   id: number
-  log_id: number
   name: string
   path?: string
-  size: number
   color: string
 }
