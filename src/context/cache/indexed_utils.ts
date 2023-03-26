@@ -10,15 +10,16 @@ export enum Query {
 
 class IndexedUtils {
   private database: string;
-  private METADATA_TABLE: string = "metadata";
+  private METADATA_TABLE: string = "_metadata";
   private version?: number;
 
   public constructor(database: string) {
     this.database = database;
   }
 
-  public key({ id, name }: { id: number; name: string }) {
-    return `${name}_${id}`;
+  public key({ id, name }: any) {
+    // TODO add id to key
+    return `${name}_TEST`;
   }
 
   private connect(

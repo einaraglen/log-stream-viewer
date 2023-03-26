@@ -7,9 +7,9 @@ const render = (object: any) => {
   const keys = Object.keys(object)
 
   return keys.map((key) => {
-    if (Object.keys(object[key]).includes('id')) {
+    if (Object.keys(object[key]).includes('name')) {
       return (
-        <Draggable key={object[key].id} signal={object[key]}>
+        <Draggable key={object[key].name} signal={object[key]}>
           <Selectable signal={object[key]} />
         </Draggable>
       )

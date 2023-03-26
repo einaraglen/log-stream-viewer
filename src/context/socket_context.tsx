@@ -32,10 +32,9 @@ const SocketContextProvider = ({ children }: Props) => {
   const { setStatus } = useGraphContext();
 
   const onResponse = (payload: any) => {
-    console.log(payload)
     // TODO: use system uuid for db opening
-    // const client = new IndexedCache("test_db");
-    // client.insert(payload.data, payload.range);
+    const client = new IndexedCache("test_db");
+    client.insert(payload.timeseries, payload.range);
   };
 
   const onSignals = (payload: any) => {
@@ -43,11 +42,11 @@ const SocketContextProvider = ({ children }: Props) => {
   };
 
   const onStatus = (payload: any) => {
-    // setStatus(payload);
+    console.log(payload)
+    setStatus(payload);
   };
 
   const onBounds = (payload: any) => {
-    console.log(new Date(payload.from), new Date(payload.from))
     navigate(payload.to - 1.2e+5, payload.to);
   }
 

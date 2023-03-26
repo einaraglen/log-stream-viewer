@@ -20,6 +20,7 @@ import GraphContextProvider, {
 import GraphLoader from "./loader";
 import { useDroppable } from "@dnd-kit/core";
 import Indicator from "../explorer/selected/indicator";
+import Warning from "./warning";
 
 ChartJS.register(
   zoom,
@@ -44,6 +45,7 @@ const Graph = () => {
     <GraphContextProvider>
       <div ref={setNodeRef} className="h-[35rem] relative">
         <GraphLoader open={status == "LOADING"} />
+        <Warning open={status == "ERROR"} />
         <Indicator open={isOver} />
         <Chart type="line" ref={ref} options={options} data={data} />
       </div>

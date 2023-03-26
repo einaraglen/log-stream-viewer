@@ -17,13 +17,13 @@ class IndexedCache {
     return await Promise.all(promises)
   }
 
-  public async find(signal: { id: number, name: string }, range: Interval): Promise<Value[]> {
+  public async find(signal: { id: number; name: string }, range: Interval): Promise<Value[]> {
     const key = this.utils.key(signal)
 
     const size = await this.utils.size(key)
 
     if (size == 1) {
-      return await this.utils.last(key) as any
+      return (await this.utils.last(key)) as any
     }
 
     const keys = await this.utils.query(key, range, Query.Keys)
@@ -33,24 +33,30 @@ class IndexedCache {
       throw new Error('Keys do not match Values!')
     }
 
-    return keys.map((x, i) => ({ x, y: values[i]})).sort((a, b) => a.x - b.x)
+    return keys.map((x, i) => ({ x, y: values[i] })).sort((a, b) => a.x - b.x)
   }
 
-  public async insert(signals: (Signal)[], range: Interval): Promise<void> {
+  public async insert(timeseries: any, range: Interval): Promise<void> {
     const queue: { id: string; range: Interval }[] = []
 
-    const promises = signals.map(async (signal, i) => {
-      const key = this.utils.key(signal)
+    const promises: any = []
 
-      const store = await this.utils.open(key, Connection.ReadWrite)
-
+    for (const name in timeseries) {
+      const key = this.utils.key({ name, id: 2 })
+      
       queue.push({ id: key, range })
 
-      signal.values.forEach((value: any) => {
-        const request = store.put(value.y_axis, parseInt(value.x_axis))
-        request.onerror = (event: any) => console.warn(event)
+      const values = timeseries[name].values
+
+      const res = this.utils.open(key, Connection.ReadWrite).then((store) => {
+        values.forEach((row) => {
+          const request = store.put(row.y_axis, row.x_axis)
+          request.onerror = (event: any) => console.warn(event)
+        })
       })
-    })
+
+      promises.push(res)
+    }
 
     await Promise.all(promises)
 
