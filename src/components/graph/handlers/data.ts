@@ -34,23 +34,23 @@ export const useDataHandler = () => {
 
     const { from, to } = range;
 
-    socket.emit("request", { signals: selected.map(s => s.name), ranges: [[from, to]] });
+    // socket.emit("request", { signals: selected.map(s => s.name), ranges: [[from, to]] });
 
     // TODO: use system uuid for db opening
-    // const client = new IndexedCache("test_db");
+    const client = new IndexedCache("test_db");
 
-    // const discovery = await client.discover(selected, [from, to]);
+    const discovery = await client.discover(selected, [from, to]);
 
-    // discovery.forEach(async ({ signal, cache, gaps }) => {
-    //   if (cache.length != 0) {
-    //     const values = await client.find(signal, [from, to]);
-    //     draw([{ ...signal, values }]);
-    //   }
+    discovery.forEach(async ({ signal, cache, gaps }) => {
+      if (cache.length != 0) {
+        const values = await client.find(signal, [from, to]);
+        draw([{ ...signal, values }]);
+      }
 
-    //   if (gaps.length != 0) {
-    //     socket.emit("request", { signals: [signal.name], ranges: gaps });
-    //   }
-    // });
+      if (gaps.length != 0) {
+        socket.emit("request", { signals: [signal.name], ranges: gaps });
+      }
+    });
   };
 
   return { onStatus, onRange };

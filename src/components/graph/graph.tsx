@@ -47,7 +47,6 @@ const Graph = () => {
         <GraphLoader open={status == "LOADING"} />
         <Warning open={status == "ERROR"} />
         <Indicator open={isOver} />
-        <span className="top-2 right-2 absolute">{status}</span>
         <Chart type="line" ref={ref} options={options} data={data} />
       </div>
     </GraphContextProvider>

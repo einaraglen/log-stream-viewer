@@ -19,7 +19,7 @@ class IndexedUtils {
 
   public key({ id, name }: any) {
     // TODO add id to key
-    return `${name}_TEST`;
+    return `${name}`;
   }
 
   private connect(
