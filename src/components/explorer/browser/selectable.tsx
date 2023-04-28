@@ -50,7 +50,7 @@ const Selectable = ({ signal }: Props) => {
       <div className="h-5 w-5 flex items-center justify-center text-sm"></div>
       <div className="text-white text-sm space-x-2 items-center flex">
       <span>{signal.name}</span>
-      <span className="text-xs text-white/50">{`(${signal.size})`}</span>
+      {/* <span className="text-xs text-white/50">{`(${signal.size})`}</span> */}
       </div>
       <div className="h-5 w-5 flex items-center justify-center text-sm"></div>
     </>

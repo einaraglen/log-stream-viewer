@@ -34,6 +34,7 @@ const SocketContextProvider = ({ children }: Props) => {
   const onResponse = (payload: any) => {
     // TODO: use system uuid for db opening
     const client = new IndexedCache("test_db");
+    console.log(payload.timeseries)
     client.insert(payload.timeseries, payload.range);
   };
 

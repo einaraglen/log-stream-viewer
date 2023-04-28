@@ -49,8 +49,8 @@ class IndexedCache {
       const values = timeseries[name].values
 
       const res = this.utils.open(key, Connection.ReadWrite).then((store) => {
-        values.forEach((row) => {
-          const request = store.put(row.y_axis, row.x_axis)
+        values.forEach((row: { yAxis: number, xAxis: number }) => {
+          const request = store.put(row.yAxis, row.xAxis)
           request.onerror = (event: any) => console.warn(event)
         })
       })

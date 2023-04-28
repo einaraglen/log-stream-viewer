@@ -138,7 +138,7 @@ class IndexedUtils {
       request.onsuccess = (event: any) => {
         const match = event.target.result;
         if (!match) return resolve([]);
-        const matches = match.filter((current) =>
+        const matches = match.filter((current: any) =>
           this.intersects(range, current)
         );
 

@@ -32,11 +32,11 @@ const Item = ({ signal }: Props) => {
       <div className="flex space-x-2 items-center">
         <div className="flex flex-col">
         <div className="flex items-center justify-end space-x-1">
-          <span className="text-xs text-white/50">MISSING</span>
+          <span className="text-xs text-white/50">--</span>
           <BiTargetLock className="h-3 w-4" />
         </div>
         <div className="flex items-center justify-end space-x-1">
-          <span className="text-xs text-white/50">MISSING</span>
+          <span className="text-xs text-white/50">--</span>
           <HiOutlineClock className="h-3 w-4" />
         </div>
         </div>
