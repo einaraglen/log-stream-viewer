@@ -1,4 +1,3 @@
-import React from "react";
 import { BiTargetLock } from "react-icons/bi";
 import { HiOutlineClock, HiXCircle } from "react-icons/hi2";
 import dayjs from "dayjs"

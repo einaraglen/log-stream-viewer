@@ -28,5 +28,8 @@ export const useNavigationHandler = () => {
     }
   }
 
+  
+  
+
   return { zoom, pan, reset, navigate }
 }

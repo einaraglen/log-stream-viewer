@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react'
+import { useMemo } from 'react'
 import { useSignalContext } from '../../../context/signal_context'
 import Expandable from './expandable'
 import Selectable, { Draggable } from './selectable'

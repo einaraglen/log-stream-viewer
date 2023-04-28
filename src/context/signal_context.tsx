@@ -15,7 +15,6 @@ export type SignalContext = {
 const addSelected = (set: any, event: any) => {
   const signal = event.active.data.current.signal
   const color = randomColor({
-    // luminosity: 'light',
     hue: 'random',
     format: 'rgb'
  })

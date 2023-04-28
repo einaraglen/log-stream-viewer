@@ -1,6 +1,6 @@
-import React, { ReactNode } from 'react'
+import { ReactNode } from 'react'
 import { Disclosure } from '@headlessui/react'
-import { HiPlay, HiChevronRight } from 'react-icons/hi2'
+import { HiChevronRight } from 'react-icons/hi2'
 import { classNames } from '../../../utils/tools'
 
 interface Props {

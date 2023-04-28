@@ -1,4 +1,3 @@
-import React from "react";
 import { classNames } from "../../utils/tools";
 
 const Loader = ({ className = "h-5 w-5" }: any) => {

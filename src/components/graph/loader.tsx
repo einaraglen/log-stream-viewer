@@ -1,5 +1,5 @@
 import { Transition } from "@headlessui/react";
-import React, { Fragment } from "react";
+import { Fragment } from "react";
 import Loader from "../misc/loader";
 
 interface Props {
@@ -14,7 +14,7 @@ const GraphLoader = ({ open }: Props) => {
       enter="transform transition duration-500"
       enterFrom="opacity-0 scale-95"
       enterTo="opacity-100 scale-100"
-      leave="transform duration-700 transition ease-in-out delay-[200ms]"
+      leave="transform duration-700 transition ease-in-out delay-[500ms]"
       leaveFrom="opacity-100 scale-100"
       leaveTo="opacity-0 scale-95"
     >

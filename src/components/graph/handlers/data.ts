@@ -1,8 +1,8 @@
-import { isMissingDeclaration } from "typescript";
 import IndexedCache from "../../../context/cache/indexed_cache";
 import { useGraphContext } from "../../../context/graph_context";
 import { useSignalContext } from "../../../context/signal_context";
 import { useSocketContext } from "../../../context/socket_context";
+import { duration } from "../../../utils/tools";
 import { useDrawHandler } from "./draw";
 
 export const useDataHandler = () => {
@@ -35,7 +35,10 @@ export const useDataHandler = () => {
       }
 
       if (gaps.length > 0) {
-        gaps.forEach((range: any) => res.missing.push({ signal: signal.name, range }))
+        gaps.forEach((range: any) => {
+          console.log("Requesting " + duration(range[0], range[1]) + " of data for " +  signal.name)
+          res.missing.push({ signal: signal.name, range })
+        })
       }
 
       return res;

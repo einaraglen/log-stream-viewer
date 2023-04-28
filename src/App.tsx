@@ -1,12 +1,10 @@
-import React from "react";
-import { createRoot } from "react-dom/client";
 import Graph from "./components/graph/graph";
 import SocketContextProvider from "./context/socket_context";
 import Explorer from "./components/explorer/explorer";
-import "./index.css";
 import { DndContext, DragOverlay } from "@dnd-kit/core";
 import { useSignalContext } from "./context/signal_context";
 import Selectable from "./components/explorer/browser/selectable";
+import Available from "./components/misc/available";
 
 const App = () => {
   const { onDragEnd, onDragStart, active } = useSignalContext();
@@ -16,6 +14,7 @@ const App = () => {
       <SocketContextProvider>
         <DndContext onDragEnd={onDragEnd} onDragStart={onDragStart}>
           <Graph />
+          <Available />
           <Explorer />
           <DragOverlay style={{ width: "auto" }}>
             {active ? (
@@ -32,6 +31,5 @@ const App = () => {
   );
 };
 
-const container = document.getElementById("app");
-const root = createRoot(container!);
-root.render(<App />);
+
+export default App;

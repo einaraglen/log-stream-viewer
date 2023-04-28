@@ -1,4 +1,3 @@
-import React from "react";
 import BrowserList from "./browser/list";
 import SelectedList from "./selected/list";
 

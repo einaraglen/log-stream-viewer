@@ -1,3 +1,7 @@
+import dayjs from "dayjs"
+import relativeTime from 'dayjs/plugin/relativeTime'
+dayjs.extend(relativeTime)
+
 export const debounce = (callback: Function, delay: number = 1000) => {
   let timeout: any
 
@@ -9,4 +13,8 @@ export const debounce = (callback: Function, delay: number = 1000) => {
 
 export const classNames = (...classes: any[]): string => {
   return classes.filter(Boolean).join(' ')
+}
+
+export const duration = (from: any, to: any): string => {
+  return dayjs(to).from(dayjs(from), true) 
 }

@@ -60,18 +60,30 @@ export const useStyleHandler = () => {
   }
 
   const wipe = () => {
-    Object.keys(ref.current!.options.scales).forEach((key) => {
+    const chart = ref.current
+
+    if (chart == null) {
+      return
+    }
+
+    Object.keys(chart.options.scales).forEach((key) => {
       if (key == "x") {
         return;
       }
 
-      delete ref.current!.options.scales[key]
+      delete chart.options.scales[key]
     })
   }
 
   const validate = () => {
+    const chart = ref.current
+
+    if (chart == null) {
+      return
+    }
+
     const active = selected.map((metadata) => metadata.name)
-    Object.keys(ref.current!.options.scales).forEach((key) => {
+    Object.keys(chart.options.scales).forEach((key) => {
       if (key == "x") {
         return;
       }
@@ -80,9 +92,10 @@ export const useStyleHandler = () => {
         return;
       }
 
-      delete ref.current!.options.scales[key]
+      delete chart.options.scales[key]
     })
   }
+
 
   const scales = () => {
     const chart = ref.current

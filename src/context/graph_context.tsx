@@ -1,4 +1,4 @@
-import React, { ReactNode } from "react";
+import { ReactNode } from "react";
 import { useEffect } from "react";
 import { create } from "zustand";
 import { useDataHandler } from "../components/graph/handlers/data";
@@ -9,6 +9,7 @@ import { useSignalContext } from "./signal_context";
 
 export type GraphContext = {
   ref: { current: any };
+  bounds: { from: number, to: number } | null
   range: { from: number; to: number } | null;
   status: null | string;
   setStatus: (status: string) => void;
@@ -18,6 +19,7 @@ export type GraphContext = {
 export const useGraphContext = create<GraphContext>((set: any) => ({
   ref: { current: null },
   range: null,
+  bounds: null,
   status: null,
   setStatus: (status: string) => set({ status }),
   set,

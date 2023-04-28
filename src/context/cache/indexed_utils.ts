@@ -17,7 +17,7 @@ class IndexedUtils {
     this.database = database;
   }
 
-  public key({ id, name }: any) {
+  public key({ name }: any) {
     // TODO add id to key
     return `${name}`;
   }
