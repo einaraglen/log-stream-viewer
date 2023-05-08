@@ -1,4 +1,4 @@
-import { ReactNode, useMemo } from "react";
+import React, { ReactNode } from "react";
 import { useDraggable } from "@dnd-kit/core";
 import { classNames } from "../../../utils/tools";
 import { useSignalContext } from "../../../context/signal_context";
@@ -16,12 +16,12 @@ export const Draggable = ({ signal, children }: Props & { children: ReactNode })
     },
   });
 
-  const isSelected = useMemo(
+  const isSelected = React.useMemo(
     () => selected.find((metadata) => metadata.id == signal.id),
     [selected]
   );
 
-  const isActive = useMemo(
+  const isActive = React.useMemo(
     () => active && active.id == signal.id,
     [active]
   );

@@ -1,16 +1,30 @@
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react-swc'
+import { defineConfig } from "vite";
+import react from "@vitejs/plugin-react-swc";
 import federation from "@originjs/vite-plugin-federation";
 
 export default defineConfig({
-  plugins: [react(),
+  plugins: [
+    react(),
     federation({
-      name: 'log-viewer',
-      filename: 'remoteEntry.js',
+      name: "log-viewer",
+      filename: "remoteEntry.js",
       exposes: {
-          './App': './src/App.tsx',
+        "./Test": "./src/Test",
+        "./LogViewer": "./src/LogViewer",
       },
-      shared: ['react', 'react-dom']
-  })
+      shared: ["react", "react-dom"],
+    }),
   ],
-})
+  server: {
+    port: 5001,
+  },
+  preview: {
+    port: 5001,
+  },
+  build: {
+    modulePreload: false,
+    target: "esnext",
+    minify: false,
+    cssCodeSplit: false,
+  },
+});

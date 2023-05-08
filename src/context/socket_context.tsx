@@ -1,5 +1,4 @@
-import { ReactNode } from "react";
-import { useEffect } from "react";
+import React, { ReactNode } from "react";
 import { io } from "socket.io-client";
 import { create } from "zustand";
 import { useNavigationHandler } from "../components/graph/handlers/navigation";
@@ -70,7 +69,7 @@ const SocketContextProvider = ({ children }: Props) => {
     socket.off("status", onStatus);
   }
 
-  useEffect(() => {
+  React.useEffect(() => {
     subscribe();
     return () => unsubscribe();
   }, []);

@@ -1,5 +1,4 @@
-import { ReactNode } from "react";
-import { useEffect } from "react";
+import React, { ReactNode } from "react";
 import { create } from "zustand";
 import { useDataHandler } from "../components/graph/handlers/data";
 import { useInteractionHandler } from "../components/graph/handlers/interactions";
@@ -9,7 +8,7 @@ import { useSignalContext } from "./signal_context";
 
 export type GraphContext = {
   ref: { current: any };
-  bounds: { from: number, to: number } | null
+  bounds: { from: number; to: number } | null;
   range: { from: number; to: number } | null;
   status: null | string;
   setStatus: (status: string) => void;
@@ -39,18 +38,18 @@ const GraphContextProvider = ({ children }: Props) => {
   const { range, status } = useGraphContext();
   const { selected } = useSignalContext();
 
-  useEffect(() => {
+  React.useEffect(() => {
     interactions();
     colors();
     navigate(1677255745888, 1677255745888 + 100000);
   }, []);
 
-  useEffect(() => {
-    scales()
+  React.useEffect(() => {
+    scales();
     onRange();
-}, [selected]);
+  }, [selected]);
 
-  useEffect(() => {
+  React.useEffect(() => {
     if (status == null || status == "LOADING") {
       return;
     }
@@ -58,7 +57,7 @@ const GraphContextProvider = ({ children }: Props) => {
     onStatus();
   }, [status]);
 
-  useEffect(() => {
+  React.useEffect(() => {
     if (range == null) {
       return;
     }
